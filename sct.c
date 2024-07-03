@@ -3,7 +3,7 @@
 
 #include "timer.h"
 
-GtkWidget *labTime;
+GtkLabel *labTime;
 
 void _updateTimerLabel(Time, gboolean);
 
@@ -34,15 +34,15 @@ gboolean keypressHandler(GtkEventControllerKey *self, guint keyval,
 }
 
 static void appActivate(GApplication *app, gpointer user_data) {
+  GtkBuilder *build;
   GtkWidget *win;
 
-  win = gtk_application_window_new(GTK_APPLICATION(app));
-  gtk_window_set_title(GTK_WINDOW(win), "Speedcube Timer");
-  gtk_window_set_default_size(GTK_WINDOW(win), 400, 300);
+  build = gtk_builder_new_from_resource("/speedcube/gtk/timer/sct.ui");
+  win = GTK_WIDGET(gtk_builder_get_object(build, "win"));
+  gtk_window_set_application(GTK_WINDOW(win), GTK_APPLICATION(app));
 
   /* Label */
-  labTime = gtk_label_new("0.0");
-  gtk_window_set_child(GTK_WINDOW(win), labTime);
+  labTime = GTK_LABEL(gtk_builder_get_object(build, "stopwatchTime"));
 
   /* Keyboard event */
   GtkEventController *keyController = gtk_event_controller_key_new();
@@ -50,16 +50,18 @@ static void appActivate(GApplication *app, gpointer user_data) {
                    G_CALLBACK(keypressHandler), NULL);
   gtk_widget_add_controller(win, keyController);
 
-  gtk_widget_show(win);
+  gtk_widget_set_visible(GTK_WIDGET(win), TRUE);
+
+  g_object_unref(build);
 }
 
 int main(int argc, char **argv) {
   GtkApplication *app;
-  int stat;
+  int status;
 
-  app = gtk_application_new("speedcube.gtk.timer", G_APPLICATION_FLAGS_NONE);
+  app = gtk_application_new("speedcube.gtk.timer", G_APPLICATION_DEFAULT_FLAGS);
   g_signal_connect(app, "activate", G_CALLBACK(appActivate), NULL);
-  stat = g_application_run(G_APPLICATION(app), argc, argv);
+  status = g_application_run(G_APPLICATION(app), argc, argv);
   g_object_unref(app);
-  return stat;
+  return status;
 }
