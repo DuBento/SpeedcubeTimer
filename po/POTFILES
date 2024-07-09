@@ -1,0 +1,6 @@
+data/gtk.timer.speedcube.desktop.in
+data/gtk.timer.speedcube.metainfo.xml.in
+data/gtk.timer.speedcube.gschema.xml
+src/main.c
+src/speedcubetimer-window.c
+src/speedcubetimer-window.ui

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=speedcubetimer
+Exec=speedcubetimer
+Icon=gtk.timer.speedcube
+Terminal=false
+Type=Application
+Categories=GTK;
+StartupNotify=true
