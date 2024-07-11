@@ -59,7 +59,7 @@ static void speedcubetimer_application_activate(GApplication *app) {
   if (window == NULL)
     window = g_object_new(SPEEDCUBETIMER_TYPE_WINDOW, "application", app, NULL);
 
-  load_css();
+  // load_css();
 
   gtk_window_present(window);
 }
